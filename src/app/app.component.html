@@ -1,0 +1,78 @@
+<div class="wrapper">
+  <div class="sidebar" [class.closed]="!isSidebarOpen">
+    <nav>
+      <h2>{{ title }}</h2>
+      <ul>
+        <li
+          [class.active]="selectedSection === 'Overview'"
+          (click)="onNavClick('Overview')"
+        >
+          <a href="javascript:void(0)">Overview</a>
+        </li>
+        <li
+          [class.active]="selectedSection === 'Performance'"
+          (click)="onNavClick('Performance')"
+        >
+          <a href="javascript:void(0)">Performance</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="main">
+    <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
+
+    <!-- Overview Section -->
+    <div *ngIf="selectedSection === 'Overview'">
+      <h1>Overview</h1>
+      <div class="metrics" *ngIf="overviewData; else overviewLoading">
+        <div class="card">
+          <h3>Revenue</h3>
+          <p>{{ overviewData.revenue | currency }}</p>
+        </div>
+        <div class="card">
+          <h3>Orders</h3>
+          <p>{{ overviewData.orders }}</p>
+        </div>
+        <div class="card">
+          <h3>Units Sold</h3>
+          <p>{{ overviewData.unitsSold }}</p>
+        </div>
+        <div class="card">
+          <h3>Return Rate</h3>
+          <p>{{ overviewData.returnRate }}%</p>
+        </div>
+      </div>
+      <ng-template #overviewLoading>
+        <p>Loading overview…</p>
+      </ng-template>
+    </div>
+
+    <!-- Performance Section -->
+    <div *ngIf="selectedSection === 'Performance'">
+      <h1>Performance</h1>
+      <div class="metrics" *ngIf="performanceData; else perfLoading">
+        <div class="card">
+          <h3>Page Views</h3>
+          <p>{{ performanceData.pageViews }}</p>
+        </div>
+        <div class="card">
+          <h3>Net Sales</h3>
+          <p>{{ performanceData.netSales }}</p>
+        </div>
+        <div class="card">
+          <h3>Buy Box %</h3>
+          <p>{{ performanceData.buyBoxPercent }}</p>
+        </div>
+      </div>
+      <ng-template #perfLoading>
+        <p>Loading performance…</p>
+      </ng-template>
+    </div>
+
+    <!-- Fallback if nothing is selected -->
+    <div *ngIf="!selectedSection">
+      <p>Please select an option from the sidebar.</p>
+    </div>
+  </div>
+</div>
